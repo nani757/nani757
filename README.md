@@ -69,11 +69,21 @@
 
 ---
 
-### **Machine Learning & Data Science**
+### **Machine Learning & AI Expertise**
 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
     <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch"></a>
     <a href="https://www.tensorflow.org/"><img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow"></a>
     <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-learn"></a>
+    <a href="https://numpy.org/"><img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy"></a>
+    <a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas"></a>
+    <a href="https://matplotlib.org/"><img src="https://img.shields.io/badge/Matplotlib-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Matplotlib"></a>
+    <a href="https://plotly.com/"><img src="https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white" alt="Plotly"></a>
+    <a href="https://keras.io/"><img src="https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white" alt="Keras"></a>
+    <a href="https://spacy.io/"><img src="https://img.shields.io/badge/SpaCy-09A3D5?style=for-the-badge&logo=spacy&logoColor=white" alt="SpaCy"></a>
+    <a href="https://h2o.ai/"><img src="https://img.shields.io/badge/H2O.ai-111111?style=for-the-badge&logo=h2o.ai&logoColor=white" alt="H2O.ai"></a>
+    <a href="https://dask.org/"><img src="https://img.shields.io/badge/Dask-EE672B?style=for-the-badge&logo=dask&logoColor=white" alt="Dask"></a>
+    <a href="https://openai.com/"><img src="https://img.shields.io/badge/OpenAI%20Gym-0081A5?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI Gym"></a>
+    <a href="https://www.databricks.com/"><img src="https://img.shields.io/badge/Databricks-FC813E?style=for-the-badge&logo=databricks&logoColor=white" alt="Databricks"></a>
 </div>
 
 ---
