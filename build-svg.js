@@ -5,8 +5,10 @@ let got = require('got')
 let qty = require('js-quantities')
 let formatDistance = require('date-fns/formatDistance')
 
+// AccuWeather API setup
 let WEATHER_DOMAIN = 'http://dataservice.accuweather.com'
 
+// Weather emoji mapping
 const emojis = {
   1: '☀️',
   2: '☀️',
@@ -38,8 +40,8 @@ const emojis = {
   32: '💨',
 }
 
-// Cheap, janky way to have variable bubble width
-dayBubbleWidths = {
+// Day bubble widths for animation
+const dayBubbleWidths = {
   Monday: 235,
   Tuesday: 235,
   Wednesday: 260,
@@ -49,50 +51,60 @@ dayBubbleWidths = {
   Sunday: 230,
 }
 
-// Time working at PlanetScale
+// Get current date information
 const today = new Date()
-const todayDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(
-  today
-)
+const todayDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(today)
 
-const psTime = formatDistance(new Date(2020, 12, 14), today, {
-  addSuffix: false,
-})
+async function generateSVG() {
+  try {
+    // Use a reliable default in case API fails
+    let weatherData = {
+      temperature: { F: 73, C: 28 },
+      icon: 1  // sunny
+    }
 
-// Today's weather
-const locationKey = '9225f58d01ec86d013b3beb38aa65ebc'
-let url = `forecasts/v1/daily/1day/${locationKey}?apikey=${WEATHER_API_KEY}`
-
-got(url, { prefixUrl: WEATHER_DOMAIN })
-  .then((response) => {
-    console.log(response.body)
-    let json = JSON.parse(response.body)
-
-    const degF = Math.round(json.DailyForecasts[0].Temperature.Maximum.Value)
-    const degC = Math.round(qty(`${degF} tempF`).to('tempC').scalar)
-    const icon = json.DailyForecasts[0].Day.Icon
-
-    fs.readFile('template.svg', 'utf-8', (error, data) => {
-      if (error) {
-        return
+    try {
+      // Hyderabad, India location key for AccuWeather
+      const locationKey = "202190" // Hyderabad location key
+      let url = `forecasts/v1/daily/1day/${locationKey}?apikey=${WEATHER_API_KEY}`
+      
+      const response = await got(url, { prefixUrl: WEATHER_DOMAIN })
+      const json = JSON.parse(response.body)
+      
+      const degF = Math.round(json.DailyForecasts[0].Temperature.Maximum.Value)
+      const degC = Math.round(qty(`${degF} tempF`).to('tempC').scalar)
+      const icon = json.DailyForecasts[0].Day.Icon
+      
+      weatherData = {
+        temperature: { F: degF, C: degC },
+        icon: icon
       }
+      
+      console.log("Weather data retrieved successfully")
+    } catch (error) {
+      console.error("Error fetching weather:", error.message)
+      // Continue with default values if API fails
+    }
 
-      data = data.replace('{degF}', degF)
-      data = data.replace('{degC}', degC)
-      data = data.replace('{weatherEmoji}', emojis[icon])
-      data = data.replace('{psTime}', psTime)
-      data = data.replace('{todayDay}', todayDay)
-      data = data.replace('{dayBubbleWidth}', dayBubbleWidths[todayDay])
+    // Read the template file
+    const templateContent = fs.readFileSync('template.svg', 'utf-8')
+    
+    // Replace placeholders with actual values
+    let svgContent = templateContent
+      .replace('{degF}', weatherData.temperature.F)
+      .replace('{degC}', weatherData.temperature.C)
+      .replace('{weatherEmoji}', emojis[weatherData.icon] || '☀️')
+      .replace('{todayDay}', todayDay)
+      .replace('{dayBubbleWidth}', dayBubbleWidths[todayDay] || 235)
+    
+    // Write the final SVG file
+    fs.writeFileSync('chat.svg', svgContent)
+    console.log('SVG generated successfully!')
+    
+  } catch (error) {
+    console.error('Error generating SVG:', error)
+  }
+}
 
-      data = fs.writeFile('chat.svg', data, (err) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-      })
-    })
-  })
-  .catch((err) => {
-    // TODO: something better
-    console.log(err)
-  })
+// Run the function
+generateSVG()
